@@ -7,5 +7,5 @@ export default defineConfig({
   build: {
     outDir: 'docs',
   },
-  base: '/mant-veg-shop/'
+  base: '/mant-veg-shop/',
 })
