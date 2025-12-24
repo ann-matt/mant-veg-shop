@@ -1,14 +1,10 @@
 import { Container, Group, Text, Badge } from '@mantine/core';
 import ModalCart from '../components/ModalCart.tsx';
-import type { CartItem } from '../components/ModalCart';
 
-type Props = {
-  cartCount: number;
-  cartItems: CartItem[];
-  onQtyChange: (id: number, qty: number) => void;
-};
 
-export default function Header({ cartCount, cartItems, onQtyChange }: Props) {
+
+
+export default function Header() {
   return (
     <Container size={1440} h="100%">
       <Group h="100%" justify="space-between">
@@ -18,7 +14,7 @@ export default function Header({ cartCount, cartItems, onQtyChange }: Props) {
             Shop
           </Badge>
         </Group>
-        <ModalCart count={cartCount} items={cartItems} onQtyChange={onQtyChange} />
+        <ModalCart />
       </Group>
     </Container>
   );

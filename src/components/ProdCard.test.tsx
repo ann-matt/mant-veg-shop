@@ -36,7 +36,6 @@ describe('ProdCard', () => {
         name={name}
         price={price}
         image={image}
-        onAddToCart={() => {}}
       />,
     );
 
@@ -51,7 +50,6 @@ describe('ProdCard', () => {
         name={name}
         price={price}
         image={image}
-        onAddToCart={() => {}}
       />,
     );
 
@@ -69,7 +67,6 @@ describe('ProdCard', () => {
         name={name}
         price={price}
         image={image}
-        onAddToCart={() => {}}
       />,
     );
 

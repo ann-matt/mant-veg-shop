@@ -3,25 +3,27 @@ import { ShoppingCart } from 'lucide-react';
 import cartEmpty from '../assets/cart_empty.svg';
 import QuantityCheck from './QuantityCheck';
 import { useDispatch, useSelector } from 'react-redux';
-import { setQty } from '../store/cart/cartSlice';
+import { setQty } from '../store/cart/cartSlice.ts';
 
-type Props = {
-    count?: number,
-    items?: CartItem[],
-    onQtyChange?: (id: number, qty: number) => void;
-    
-}
-export type CartItem = {
-  id: number;
-  name: string;
-  price: number;
-  image: string;
-  unit?: string;   // "1 kg"
-  qty: number;
+
+type RootState = {
+  cart: {
+    items: {
+      id: number;
+      name: string;
+      price: number;
+      image: string;
+      qty: number;
+    }[];
+  };
 };
 
-export default function ModalCart({ count = 0, items = [], onQtyChange }: Props) {
+export default function ModalCart() {
+    const dispatch = useDispatch();
+    const items = useSelector((state: RootState) => state.cart.items);
+    const count = items.reduce((s, i) => s + i.qty, 0);
     const total = items.reduce((s, i) => s + i.price * i.qty, 0);
+
 
     
 
@@ -56,7 +58,7 @@ export default function ModalCart({ count = 0, items = [], onQtyChange }: Props)
                     <Stack gap={2} style={{ minWidth: 0 }}>
                       <Group gap={6} wrap="nowrap">
                         <Text fw={600} lineClamp={1}>{i.name}</Text>
-                        {i.unit && <Text c="dimmed" size="sm">{i.unit}</Text>}
+                        {/* {i.unit && <Text c="dimmed" size="sm">{i.unit}</Text>} */}
                       </Group>
                       <Text fw={700}>${i.price}</Text>
                     </Stack>
@@ -65,7 +67,7 @@ export default function ModalCart({ count = 0, items = [], onQtyChange }: Props)
                   {/* справа: qty */}
                   <QuantityCheck
                     value={i.qty}
-                    onChange={(v) => onQtyChange?.(i.id, v)}
+                    onChange={(v) => dispatch(setQty({id: i.id, qty: v}))}
                   />
                 </Group>
 
