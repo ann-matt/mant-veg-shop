@@ -72,7 +72,7 @@ export default function ModalCart({ count = 0, items = [], onQtyChange }: Props)
             ))}
 
             <Group justify="space-between" mt="xs">
-              <Text fw={600}>Total</Text>
+              <Text fw={600}>Totall</Text>
               <Text fw={700}>${total}</Text>
             </Group>
           </Stack>
