@@ -2,16 +2,18 @@ import { Card, Image, Text, Button, Group } from '@mantine/core';
 import { ShoppingCart } from 'lucide-react';
 import { useState } from 'react';
 import QuantityCheck from './QuantityCheck.tsx';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../store/cart/cartSlice.ts';
 
 type ProdCardProps = {
-  id?: number;
+  id: number;
   name: string;
   price: number;
   image: string;
-  onAddToCart:(qty: number) => void,
 }
 
-export default function ProdCard({name, price, image, onAddToCart}: ProdCardProps) {
+export default function ProdCard({id, name, price, image}: ProdCardProps) {
+  const dispatch = useDispatch();
   const parts = name.split("-").map(x => x.trim());
   const title = parts[0] || name;
   const kilos = parts[1] || " ";
@@ -41,7 +43,8 @@ export default function ProdCard({name, price, image, onAddToCart}: ProdCardProp
         <Text size="md" c="black" fw={600} w={54}>
         $ {price}
       </Text>
-      <Button onClick={() => onAddToCart(qty)} variant="light" color="myColor" radius="md" rightSection={<ShoppingCart size={16}/>} w="100%">
+      <Button onClick={() => dispatch(addToCart({ id, name, price, image, qty }))}
+ variant="light" color="myColor" radius="md" rightSection={<ShoppingCart size={16}/>} w="100%">
         Add to Cart
       </Button>
 

@@ -8,6 +8,9 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import { MantineProvider, createTheme } from '@mantine/core';
 import type { MantineColorsTuple } from '@mantine/core';
+import store from './store/store';
+import { Provider } from 'react-redux';
+
 
 const myColor: MantineColorsTuple = [
   '#eafbee',
@@ -36,8 +39,10 @@ const theme = createTheme({
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <MantineProvider theme={theme}>
+    <Provider store={store}>
+      <MantineProvider theme={theme}>
         <App />
-    </MantineProvider>
+      </MantineProvider>
+    </Provider>
   </React.StrictMode>
 );

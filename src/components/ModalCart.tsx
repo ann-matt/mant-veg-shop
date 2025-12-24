@@ -2,6 +2,8 @@ import { Popover, Button, Group, Stack, Text, Image, Divider, Box, Badge } from 
 import { ShoppingCart } from 'lucide-react';
 import cartEmpty from '../assets/cart_empty.svg';
 import QuantityCheck from './QuantityCheck';
+import { useDispatch, useSelector } from 'react-redux';
+import { setQty } from '../store/cart/cartSlice';
 
 type Props = {
     count?: number,
