@@ -3,7 +3,8 @@ import { Alert, Loader, Stack } from '@mantine/core';
 import ProdCard from './ProdCard.tsx';
 import type { Product } from '../App';
 
-type Props = { onAddToCart: (p: Product, qty: number) => void };
+
+
 
 type ApiProduct = {
   id: number;
@@ -16,7 +17,7 @@ type ApiProduct = {
 const DATA_URL =
   'https://res.cloudinary.com/sivadass/raw/upload/v1535817394/json/products.json';
 
-export default function ProductsList({ onAddToCart }: Props) {
+export default function ProductsList() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -82,12 +83,6 @@ export default function ProductsList({ onAddToCart }: Props) {
           name={prod.name}
           price={prod.price}
           image={prod.image}
-          onAddToCart={(qty) =>
-            onAddToCart(
-              { id: prod.id, name: prod.name, price: prod.price, image: prod.image },
-              qty
-            )
-          }
         />
       ))}
     </>

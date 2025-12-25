@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
 
 export type Product = {
   id: number;
@@ -33,9 +32,8 @@ const DATA_URL =
 
 export const fetchProducts = createAsyncThunk<Product[]>(
   'products/fetchProducts',
-  async (_, thunkAPI) => {
-    // thunkAPI.signal — это AbortSignal, Redux Toolkit сам умеет abort
-    const res = await fetch(DATA_URL, { signal: thunkAPI.signal });
+  async () => {
+    const res = await fetch(DATA_URL);
 
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
@@ -63,16 +61,11 @@ const productsSlice = createSlice({
         state.status = 'loading';
         state.error = null;
       })
-      .addCase(fetchProducts.fulfilled, (state, action: PayloadAction<Product[]>) => {
+      .addCase(fetchProducts.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.items = action.payload;
       })
       .addCase(fetchProducts.rejected, (state, action) => {
-        // Abort — не считаем ошибкой UI (аналогично твоему return)
-        if (action.error.name === 'AbortError') {
-          state.status = 'idle';
-          return;
-        }
         state.status = 'failed';
         state.error = action.error.message ?? 'Unknown error';
       });
