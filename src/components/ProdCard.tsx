@@ -53,7 +53,4 @@ export default function ProdCard({id, name, price, image}: ProdCardProps) {
         )
 
 
-
-    
-
 }

@@ -1,64 +1,27 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Alert, Loader, Stack } from '@mantine/core';
 import ProdCard from './ProdCard.tsx';
-import type { Product } from '../App';
 
+import { useSelector, useDispatch } from 'react-redux';
+import {fetchProducts} from '../store/products/productsSlice.ts';
+import type { RootState, AppDispatch } from '../store/store.ts';
 
-
-
-type ApiProduct = {
-  id: number;
-  name: string;
-  price: number | string;
-  image: string;
-  category: string;
-};
-
-const DATA_URL =
-  'https://res.cloudinary.com/sivadass/raw/upload/v1535817394/json/products.json';
 
 export default function ProductsList() {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const dispatch = useDispatch<AppDispatch>();
+  const products = useSelector((state: RootState) => state.products.items);
+  const productStatus = useSelector((state: RootState) => state.products.status);
+  const error = useSelector((state: RootState) => state.products.error);
+
 
   useEffect(() => {
-    const ac = new AbortController();
-
-    async function load() {
-      try {
-        setLoading(true);
-        setError(null);
-
-        const res = await fetch(DATA_URL, { signal: ac.signal });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-
-        const data: ApiProduct[] = await res.json();
-
-        // На всякий случай приводим типы (price → number)
-        const normalized: Product[] = data.map((p) => ({
-          id: p.id,
-          name: p.name,
-          price: typeof p.price === 'string' ? Number(p.price) : p.price,
-          image: p.image,
-        }));
-
-        setProducts(normalized);
-      } catch (e: unknown) {
-         if (e instanceof DOMException && e.name === 'AbortError') {
-          return
-        } 
-        
-      } finally {
-        setLoading(false);
-      }
+    if(productStatus === 'idle') {
+      dispatch(fetchProducts());
     }
+  }, [productStatus, dispatch]);
+    
 
-    load();
-    return () => ac.abort();
-  }, []);
-
-  if (loading) {
+  if (productStatus === 'loading') {
     return (
       <Stack align="center" py="lg">
         <Loader />
@@ -66,7 +29,7 @@ export default function ProductsList() {
     );
   }
 
-  if (error) {
+  if (productStatus === 'failed') {
     return (
       <Alert color="red" title="Не удалось загрузить товары">
         {error}
@@ -76,13 +39,13 @@ export default function ProductsList() {
 
   return (
     <>
-      {products.map((prod) => (
+      {products.map((product) => (
         <ProdCard
-          key={prod.id}
-          id={prod.id}
-          name={prod.name}
-          price={prod.price}
-          image={prod.image}
+          key={product.id}
+          id={product.id}
+          name={product.name}
+          price={product.price}
+          image={product.image}
         />
       ))}
     </>
