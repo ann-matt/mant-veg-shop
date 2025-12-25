@@ -36,6 +36,7 @@ describe('ProdCard', () => {
         name={name}
         price={price}
         image={image}
+        id={1}
       />,
     );
 
@@ -50,6 +51,7 @@ describe('ProdCard', () => {
         name={name}
         price={price}
         image={image}
+        id={1}
       />,
     );
 
@@ -67,6 +69,7 @@ describe('ProdCard', () => {
         name={name}
         price={price}
         image={image}
+        id={1}
       />,
     );
 

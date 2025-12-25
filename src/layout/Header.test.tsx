@@ -33,16 +33,11 @@ const renderWithMantine = (ui: React.ReactElement) => {
 };
 
 describe('Header', () => {
-  const cartCount = 3;
-  const onQtyChange = vi.fn();
+
 
   it('рендерит название магазина и бейдж Shop', () => {
     renderWithMantine(
-      <Header
-        cartCount={cartCount}
-        cartItems={[]}
-        onQtyChange={onQtyChange}
-      />,
+      <Header/>,
     );
 
     expect(screen.getByText('Vegetable')).toBeInTheDocument();

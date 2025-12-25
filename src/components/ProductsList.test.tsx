@@ -49,9 +49,8 @@ describe('ProductsList', () => {
       json: async () => mockProducts,
     } as unknown as Response);
 
-    const onAddToCart = vi.fn();
 
-    renderWithMantine(<ProductsList onAddToCart={onAddToCart} />);
+    renderWithMantine(<ProductsList />);
 
     const productTitle = await screen.findByText('Brocolli');
     expect(productTitle).toBeInTheDocument();
@@ -67,9 +66,9 @@ describe('ProductsList', () => {
         json: async () => mockProducts,
       } as unknown as Response);
 
-    const onAddToCart = vi.fn();
 
-    renderWithMantine(<ProductsList onAddToCart={onAddToCart} />);
+
+    renderWithMantine(<ProductsList />);
 
     await screen.findByText('Brocolli');
 
