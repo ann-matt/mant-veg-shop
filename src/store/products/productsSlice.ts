@@ -39,7 +39,7 @@ export const fetchProducts = createAsyncThunk<Product[]>(
 
     const data: ApiProduct[] = await res.json();
 
-    // нормализация ровно как у тебя
+
     const normalized: Product[] = data.map((p) => ({
       id: p.id,
       name: p.name,
